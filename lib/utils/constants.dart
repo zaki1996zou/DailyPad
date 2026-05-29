@@ -36,6 +36,10 @@ class AppStrings {
   AppStrings._();
 
   static const String appName = 'DailyPad';
+  static const String supportUrl =
+      'https://sites.google.com/view/dailypad/home';
+  static const String privacyPolicyUrl =
+      'https://sites.google.com/view/dailypad2/home';
   static const String supportEmail = 'support@dailypad.app';
   static const String appDescription =
       'DailyPad is a simple offline notes and tasks organizer designed to help '

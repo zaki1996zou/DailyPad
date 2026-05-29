@@ -21,8 +21,8 @@
 - [ ] **Keywords**: notes, tasks, offline, planner, organizer, todo
 - [ ] **Category**: Productivity
 - [ ] **Screenshots**: 6.7", 6.5", and 5.5" iPhone sizes (required)
-- [ ] **Support URL**: Page or mailto for `support@dailypad.app` (update email in `constants.dart`)
-- [ ] **Privacy Policy URL**: Host the in-app policy text on your website, or use App Store “Privacy Policy” field with the same content as `PrivacyPolicyScreen`
+- [ ] **Support URL**: https://sites.google.com/view/dailypad/home
+- [ ] **Privacy Policy URL**: https://sites.google.com/view/dailypad2/home
 
 ### Privacy (App Store Connect → App Privacy)
 - [ ] Select **Data Not Collected** (app stores notes/tasks only on device)
@@ -39,20 +39,21 @@
 ```
 DailyPad is fully offline. No login, no server, no notifications.
 Notes and tasks are stored locally with Hive on the device.
-Settings → Privacy Policy describes data handling.
+Settings → Privacy Policy opens the hosted policy URL.
 Settings → Delete All Data removes all user content.
 ```
 
 ## In-App Compliance (already implemented)
 - No login, ads, IAP, notifications, camera, mic, location, or biometrics
-- In-app Privacy Policy (`Settings → Privacy Policy`)
+- Privacy Policy link (`Settings → Privacy Policy`)
+- Support link (`Settings → Support`)
 - Delete All Data (`Settings → Delete All Data`)
 - `PrivacyInfo.xcprivacy` manifest in the iOS target
 - Portrait-only on iPhone
 
 ## Replace Before Production
-1. **`AppStrings.supportEmail`** in `lib/utils/constants.dart`
-2. Host a **privacy policy URL** on your domain (copy from `lib/screens/privacy_policy_screen.dart`)
+1. Confirm **Support** and **Privacy Policy** pages stay live on Google Sites
+2. Optional: update **`AppStrings.supportEmail`** in `lib/utils/constants.dart` if you add email to the support page
 3. Optional: change **`com.dailypad.note`** if you use a different bundle ID in App Store Connect
 
 ## Versioning

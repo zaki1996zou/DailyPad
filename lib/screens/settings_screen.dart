@@ -2,7 +2,6 @@ import 'package:fc_app3_dailypad/app/theme.dart';
 import 'package:fc_app3_dailypad/providers/notes_provider.dart';
 import 'package:fc_app3_dailypad/providers/tasks_provider.dart';
 import 'package:fc_app3_dailypad/providers/theme_provider.dart';
-import 'package:fc_app3_dailypad/screens/privacy_policy_screen.dart';
 import 'package:fc_app3_dailypad/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -32,19 +31,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  Future<void> _contactSupport() async {
-    final uri = Uri(
-      scheme: 'mailto',
-      path: AppStrings.supportEmail,
-      query: 'subject=${Uri.encodeComponent('DailyPad Support')}',
-    );
+  Future<void> _openUrl(String url, {required String failureMessage}) async {
+    final uri = Uri.parse(url);
     final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
     if (!launched && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Email us at ${AppStrings.supportEmail}')),
+        SnackBar(content: Text(failureMessage)),
       );
     }
   }
+
+  Future<void> _openSupport() => _openUrl(
+        AppStrings.supportUrl,
+        failureMessage: 'Could not open the support page',
+      );
+
+  Future<void> _openPrivacyPolicy() => _openUrl(
+        AppStrings.privacyPolicyUrl,
+        failureMessage: 'Could not open the privacy policy',
+      );
 
   Future<void> _deleteAllData() async {
     final confirmed = await showDialog<bool>(
@@ -131,14 +136,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _SettingsTile(
             icon: Icons.privacy_tip_outlined,
             title: 'Privacy Policy',
-            subtitle: 'How DailyPad handles your data',
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => const PrivacyPolicyScreen(),
-                ),
-              );
-            },
+            subtitle: 'View our privacy policy online',
+            onTap: _openPrivacyPolicy,
           ),
           _SettingsTile(
             icon: Icons.delete_forever_outlined,
@@ -150,10 +149,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: AppSpacing.lg),
           const _SectionHeader(title: 'Support'),
           _SettingsTile(
-            icon: Icons.mail_outline,
-            title: 'Contact Support',
-            subtitle: AppStrings.supportEmail,
-            onTap: _contactSupport,
+            icon: Icons.help_outline,
+            title: 'Support',
+            subtitle: 'Get help and contact information',
+            onTap: _openSupport,
           ),
           const SizedBox(height: AppSpacing.lg),
           const _SectionHeader(title: 'About'),
@@ -202,9 +201,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Text(
                   AppStrings.appDescription,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.secondaryTextColor(context),
-                        height: 1.5,
-                      ),
+                    color: AppTheme.secondaryTextColor(context),
+                    height: 1.5,
+                  ),
                 ),
               ],
             ),
@@ -230,9 +229,9 @@ class _SectionHeader extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppTheme.secondaryTextColor(context),
-              fontSize: 13,
-            ),
+          color: AppTheme.secondaryTextColor(context),
+          fontSize: 13,
+        ),
       ),
     );
   }
